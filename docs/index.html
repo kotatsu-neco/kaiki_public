@@ -8,6 +8,32 @@
 </head>
 <body>
   <main class="page">
+    <section class="card">
+      <p class="eyebrow">For ChatGPT</p>
+      <h2>プレイヤー用　ChatGPT開始プロンプト</h2>
+      <p>ChatGPTで遊ぶ場合は、以下を新しいチャットに貼ってから始めてください。ネタバレは含みません。</p>
+      <textarea id="player-start-prompt" class="answer-box" readonly>あなたは『怪異標識』の進行補助役です。
+これからプレイヤーは次の公開ページを見ます。
+
+{{EP01_URL}}
+
+ルール：
+- ヒントを出さない
+- 質問に答えない
+- 正解や判定条件を推測して説明しない
+- プレイヤーには、導入文と画像を順番に見てもらう
+- 最後に「私は〇〇する。理由は〇〇だから。」の形で自由記述回答を書いてもらう
+- このチャットでは判定しない
+
+最初に次の一文だけ返してください。
+公開ページを開いて、導入文と画像を順番に見てください。見終わったら、あなたの最終行動と理由を書いてください。</textarea>
+      <div class="controls">
+        <button type="button" id="copy-player-start-prompt">プロンプトをコピー</button>
+        <a class="button secondary" href="./episodes/ep01/">第1話を開く</a>
+      </div>
+      <p class="muted" id="copy-player-start-prompt-status"></p>
+    </section>
+
     <section class="card hero">
       <p class="eyebrow">Kaiki Sign Game</p>
       <h1>怪異標識</h1>
@@ -15,5 +41,22 @@
       <a class="button" href="./episodes/ep01/">第1話を始める</a>
     </section>
   </main>
+  <script>
+    const promptEl = document.getElementById('player-start-prompt');
+    const copyBtn = document.getElementById('copy-player-start-prompt');
+    const statusEl = document.getElementById('copy-player-start-prompt-status');
+    const ep01Url = new URL('./episodes/ep01/', location.href).href;
+    promptEl.value = promptEl.value.replace('{{EP01_URL}}', ep01Url);
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(promptEl.value);
+        statusEl.textContent = 'コピーしました。';
+      } catch (error) {
+        promptEl.focus();
+        promptEl.select();
+        statusEl.textContent = 'コピーできない場合は、本文を選択して手動でコピーしてください。';
+      }
+    });
+  </script>
 </body>
 </html>

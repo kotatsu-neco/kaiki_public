@@ -1,0 +1,10 @@
+{
+  "episodes": [
+    {
+      "id": "ep01",
+      "title": "一名ずつ通過してください",
+      "status": "prototype",
+      "path": "episodes/ep01/"
+    }
+  ]
+}

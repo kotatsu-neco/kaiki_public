@@ -12,12 +12,42 @@
     "それ以上の説明はなかった。"
   ],
   "images": [
-    {"id":"A","public_label":"全景","file":"assets/scene/A.svg","alt":"広大な密室の全景"},
-    {"id":"B","public_label":"エレベーター付近","file":"assets/scene/B.svg","alt":"エレベーター付近"},
-    {"id":"C","public_label":"標識1","file":"assets/pictograms/C.svg","alt":"標識1"},
-    {"id":"D","public_label":"標識2","file":"assets/pictograms/D.svg","alt":"標識2"},
-    {"id":"E","public_label":"標識3","file":"assets/pictograms/E.svg","alt":"標識3"},
-    {"id":"F","public_label":"標識4","file":"assets/pictograms/F.svg","alt":"標識4"}
+    {
+      "id": "A",
+      "public_label": "全景",
+      "file": "assets/scene/ep01_scene_overview.webp",
+      "alt": "広大な密室の全景"
+    },
+    {
+      "id": "B",
+      "public_label": "エレベーター付近",
+      "file": "assets/scene/ep01_scene_elevator_area.webp",
+      "alt": "エレベーター付近"
+    },
+    {
+      "id": "C",
+      "public_label": "標識1",
+      "file": "assets/pictograms/ep01_pictogram_reflection_check.webp",
+      "alt": "標識1"
+    },
+    {
+      "id": "D",
+      "public_label": "標識2",
+      "file": "assets/pictograms/ep01_pictogram_wait.webp",
+      "alt": "標識2"
+    },
+    {
+      "id": "E",
+      "public_label": "標識3",
+      "file": "assets/pictograms/ep01_pictogram_no_response.webp",
+      "alt": "標識3"
+    },
+    {
+      "id": "F",
+      "public_label": "標識4",
+      "file": "assets/pictograms/ep01_pictogram_single_passage.webp",
+      "alt": "標識4"
+    }
   ],
   "final_situation": [
     "あなたがエレベーターの前まで歩くと、扉が開いた。",

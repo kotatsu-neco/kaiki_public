@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="D sign">
+  <rect width="512" height="512" fill="#fff"/>
+  <rect x="22" y="22" width="468" height="468" rx="28" fill="none" stroke="#111" stroke-width="18"/>
+  <g fill="#111">
+    <circle cx="256" cy="128" r="34"/>
+    <rect x="220" y="178" width="72" height="158" rx="28"/>
+    <rect x="204" y="218" width="30" height="126" rx="14"/>
+    <rect x="278" y="218" width="30" height="126" rx="14"/>
+    <rect x="229" y="326" width="23" height="98" rx="11"/>
+    <rect x="260" y="326" width="23" height="98" rx="11"/>
+    <rect x="118" y="408" width="276" height="18"/>
+    <path d="M116 260 h34 v92 h32 l-49 58 -49-58 h32z"/>
+    <path d="M362 260 h34 v92 h32 l-49 58 -49-58 h32z"/>
+  </g>
+</svg>

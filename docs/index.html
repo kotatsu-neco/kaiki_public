@@ -37,10 +37,10 @@
     <section class="card">
       <p class="eyebrow">Host Mode</p>
       <h2>出題者用　一台完結プロンプト</h2>
-      <p><strong>ネタバレあり。</strong>一台・一時チャットで、開始から判定まで行うためのプロンプトです。出題者だけがコピーしてください。</p>
-      <p class="muted">プロンプト本文は別ファイルから読み込んでコピーします。画面には長文を表示しません。</p>
+      <p><strong>ネタバレあり。</strong>一台・一時チャットで、開始から判定まで行うための出題者向け導線です。</p>
+      <p class="muted">コピーされるのは短い読み込み用プロンプトだけです。真相・判定条件・エンディング本文はチャット貼り付け欄に直接出ません。</p>
       <div class="controls">
-        <button type="button" id="copy-host-one-chat-prompt">一台完結プロンプトをコピー</button>
+        <button type="button" id="copy-host-one-chat-prompt">読み込み用プロンプトをコピー</button>
       </div>
       <p class="muted" id="copy-host-one-chat-prompt-status"></p>
     </section>
@@ -54,6 +54,7 @@
   </main>
   <script>
     const ep01Url = new URL('./episodes/ep01/', location.href).href;
+    const promptUrl = new URL('./prompts/ep01_host_one_chat_prompt.txt', location.href).href;
     document.querySelectorAll('textarea').forEach((el) => {
       el.value = el.value.replaceAll('{{EP01_URL}}', ep01Url);
     });
@@ -82,17 +83,8 @@
     const hostCopyBtn = document.getElementById('copy-host-one-chat-prompt');
     const hostStatus = document.getElementById('copy-host-one-chat-prompt-status');
     hostCopyBtn.addEventListener('click', async () => {
-      hostStatus.textContent = '読み込み中です。';
-      try {
-        const response = await fetch('./prompts/ep01_host_one_chat_prompt.txt', { cache: 'no-store' });
-        if (!response.ok) {
-          throw new Error('prompt fetch failed');
-        }
-        const promptText = (await response.text()).replaceAll('{{EP01_URL}}', ep01Url);
-        await copyText(promptText, hostStatus, null);
-      } catch (error) {
-        hostStatus.textContent = '読み込みまたはコピーに失敗しました。ページを再読み込みして、もう一度試してください。';
-      }
+      const loaderPrompt = `あなたは『怪異標識』EP01のゲームマスターです。\n\n次のURLにある出題者用指示書を開いて内容を読み、その指示に従って、このチャットだけで開始案内、回答受付、判定、エンディング出力まで行ってください。\n\n出題者用指示書URL：\n${promptUrl}\n\nプレイヤーが見る公開ページURL：\n${ep01Url}\n\n重要：\n- URL先の指示書を読めた場合、最初の返答ではプレイヤー向け案内だけを返してください。\n- URL先の指示書を読めない場合は、「出題者用指示書を読めませんでした。出題者に確認してください。」とだけ返してください。\n- 判定前に真相・判定条件・エンディングを説明しないでください。`;
+      await copyText(loaderPrompt, hostStatus, null);
     });
   </script>
 </body>

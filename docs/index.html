@@ -13,7 +13,7 @@
       <h2>出題者用　一台完結プロンプト</h2>
       <p>家庭内で、1台の端末と1つの一時チャットだけで遊ぶための開始用プロンプトです。</p>
       <p>出題者がコピーして一時チャットに貼り、ChatGPTが最初の案内文を返したら、その画面をプレイヤーに見せてください。</p>
-      <p class="muted">コピーされるのは短い読み込み用プロンプトです。真相・判定条件・エンディング本文は、チャットの貼り付け欄には直接表示されません。ただし出題者向けの導線なので、プレイヤーには操作させないでください。</p>
+      <p class="muted">プロンプト本文をコピーします。リンク読込に依存しません。貼り付け欄や送信後の表示で答えが見えにくいよう、表示対策用の余白を入れています。ただし出題者向けの導線なので、プレイヤーには操作させないでください。</p>
       <div class="controls">
         <button type="button" id="copy-host-one-chat-prompt">出題者用プロンプトをコピー</button>
       </div>
@@ -29,7 +29,6 @@
   </main>
   <script>
     const ep01Url = new URL('./episodes/ep01/', location.href).href;
-    const promptUrl = new URL('./prompts/ep01_host_one_chat_prompt.txt', location.href).href;
 
     async function copyText(text, statusEl) {
       try {
@@ -43,8 +42,17 @@
     const hostCopyBtn = document.getElementById('copy-host-one-chat-prompt');
     const hostStatus = document.getElementById('copy-host-one-chat-prompt-status');
     hostCopyBtn.addEventListener('click', async () => {
-      const loaderPrompt = `あなたは『怪異標識』EP01のゲームマスターです。\n\n次のURLにある出題者用指示書を開き、内容を読んでください。\nその指示に従って、このチャットだけで開始案内、回答受付、判定、エンディング出力まで行ってください。\n\n出題者用指示書URL：\n${promptUrl}\n\nプレイヤーが見る公開ページURL：\n${ep01Url}\n\n重要：\n- URL先の指示書を読めた場合、最初の返答はプレイヤー向け案内だけにしてください。\n- URL先の指示書を読めない場合は、「出題者用指示書を読めませんでした。出題者に確認してください。」とだけ返してください。\n- 判定前に真相・判定条件・エンディングを説明しないでください。\n- ヒントや質問回答は行わず、プレイヤーの最終回答だけを受け付けてください。`;
-      await copyText(loaderPrompt, hostStatus);
+      hostStatus.textContent = '読み込み中です。';
+      try {
+        const response = await fetch('./prompts/ep01_host_one_chat_prompt.txt', { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error('prompt fetch failed');
+        }
+        const promptText = (await response.text()).replaceAll('{{EP01_URL}}', ep01Url);
+        await copyText(promptText, hostStatus);
+      } catch (error) {
+        hostStatus.textContent = '読み込みまたはコピーに失敗しました。ページを再読み込みして、もう一度試してください。';
+      }
     });
   </script>
 </body>

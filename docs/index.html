@@ -9,38 +9,13 @@
 <body>
   <main class="page">
     <section class="card">
-      <p class="eyebrow">For ChatGPT</p>
-      <h2>プレイヤー用　ChatGPT開始プロンプト</h2>
-      <p>ChatGPTで遊ぶ場合は、以下を新しいチャットに貼ってから始めてください。ネタバレは含みません。</p>
-      <textarea id="player-start-prompt" class="answer-box" readonly>あなたは『怪異標識』の進行補助役です。
-これからプレイヤーは次の公開ページを見ます。
-
-{{EP01_URL}}
-
-ルール：
-- ヒントを出さない
-- 質問に答えない
-- 正解や判定条件を推測して説明しない
-- プレイヤーには、導入文と画像を順番に見てもらう
-- 最後に「私は〇〇する。理由は〇〇だから。」の形で自由記述回答を書いてもらう
-- このチャットでは判定しない
-
-最初に次の一文だけ返してください。
-公開ページを開いて、導入文と画像を順番に見てください。見終わったら、あなたの最終行動と理由を書いてください。</textarea>
-      <div class="controls">
-        <button type="button" data-copy-target="player-start-prompt" data-status-target="copy-player-start-prompt-status">プロンプトをコピー</button>
-        <a class="button secondary" href="./episodes/ep01/">第1話を開く</a>
-      </div>
-      <p class="muted" id="copy-player-start-prompt-status"></p>
-    </section>
-
-    <section class="card">
       <p class="eyebrow">Host Mode</p>
       <h2>出題者用　一台完結プロンプト</h2>
-      <p><strong>ネタバレあり。</strong>一台・一時チャットで、開始から判定まで行うための出題者向け導線です。</p>
-      <p class="muted">コピーされるのは短い読み込み用プロンプトだけです。真相・判定条件・エンディング本文はチャット貼り付け欄に直接出ません。</p>
+      <p>家庭内で、1台の端末と1つの一時チャットだけで遊ぶための開始用プロンプトです。</p>
+      <p>出題者がコピーして一時チャットに貼り、ChatGPTが最初の案内文を返したら、その画面をプレイヤーに見せてください。</p>
+      <p class="muted">コピーされるのは短い読み込み用プロンプトです。真相・判定条件・エンディング本文は、チャットの貼り付け欄には直接表示されません。ただし出題者向けの導線なので、プレイヤーには操作させないでください。</p>
       <div class="controls">
-        <button type="button" id="copy-host-one-chat-prompt">読み込み用プロンプトをコピー</button>
+        <button type="button" id="copy-host-one-chat-prompt">出題者用プロンプトをコピー</button>
       </div>
       <p class="muted" id="copy-host-one-chat-prompt-status"></p>
     </section>
@@ -55,36 +30,21 @@
   <script>
     const ep01Url = new URL('./episodes/ep01/', location.href).href;
     const promptUrl = new URL('./prompts/ep01_host_one_chat_prompt.txt', location.href).href;
-    document.querySelectorAll('textarea').forEach((el) => {
-      el.value = el.value.replaceAll('{{EP01_URL}}', ep01Url);
-    });
 
-    async function copyText(text, statusEl, fallbackEl) {
+    async function copyText(text, statusEl) {
       try {
         await navigator.clipboard.writeText(text);
         statusEl.textContent = 'コピーしました。';
       } catch (error) {
-        if (fallbackEl) {
-          fallbackEl.focus();
-          fallbackEl.select();
-        }
-        statusEl.textContent = 'コピーできない場合は、本文を選択して手動でコピーしてください。';
+        statusEl.textContent = 'コピーに失敗しました。ページを再読み込みして、もう一度試してください。';
       }
     }
-
-    document.querySelectorAll('[data-copy-target]').forEach((button) => {
-      button.addEventListener('click', async () => {
-        const target = document.getElementById(button.dataset.copyTarget);
-        const status = document.getElementById(button.dataset.statusTarget);
-        await copyText(target.value, status, target);
-      });
-    });
 
     const hostCopyBtn = document.getElementById('copy-host-one-chat-prompt');
     const hostStatus = document.getElementById('copy-host-one-chat-prompt-status');
     hostCopyBtn.addEventListener('click', async () => {
-      const loaderPrompt = `あなたは『怪異標識』EP01のゲームマスターです。\n\n次のURLにある出題者用指示書を開いて内容を読み、その指示に従って、このチャットだけで開始案内、回答受付、判定、エンディング出力まで行ってください。\n\n出題者用指示書URL：\n${promptUrl}\n\nプレイヤーが見る公開ページURL：\n${ep01Url}\n\n重要：\n- URL先の指示書を読めた場合、最初の返答ではプレイヤー向け案内だけを返してください。\n- URL先の指示書を読めない場合は、「出題者用指示書を読めませんでした。出題者に確認してください。」とだけ返してください。\n- 判定前に真相・判定条件・エンディングを説明しないでください。`;
-      await copyText(loaderPrompt, hostStatus, null);
+      const loaderPrompt = `あなたは『怪異標識』EP01のゲームマスターです。\n\n次のURLにある出題者用指示書を開き、内容を読んでください。\nその指示に従って、このチャットだけで開始案内、回答受付、判定、エンディング出力まで行ってください。\n\n出題者用指示書URL：\n${promptUrl}\n\nプレイヤーが見る公開ページURL：\n${ep01Url}\n\n重要：\n- URL先の指示書を読めた場合、最初の返答はプレイヤー向け案内だけにしてください。\n- URL先の指示書を読めない場合は、「出題者用指示書を読めませんでした。出題者に確認してください。」とだけ返してください。\n- 判定前に真相・判定条件・エンディングを説明しないでください。\n- ヒントや質問回答は行わず、プレイヤーの最終回答だけを受け付けてください。`;
+      await copyText(loaderPrompt, hostStatus);
     });
   </script>
 </body>

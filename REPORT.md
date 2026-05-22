@@ -7,21 +7,18 @@ Public GitHub Pages starter repository.
 - Episode structure supports `ep01`, `ep02`, etc.
 - Public files do not intentionally include GM secret or endings.
 - Episode page uses public JSON and neutral image IDs.
-- EP01 final WebP asset package has been generated locally as `kaiki_ep01_final_assets_v01_web.zip`.
+- EP01 final WebP asset package was generated locally as `kaiki_ep01_final_assets_v01_web.zip`.
+- Final WebP assets were uploaded by the user.
+- GitHub Pages real-device check was completed by the user and reported OK.
 
 ## Current asset status
-- Current GitHub Pages files still reference SVG placeholders.
-- The accepted final EP01 asset candidates are WebP files in the generated asset package.
-- Binary WebP files have not yet been committed to this repository.
+- EP01 is now using the final WebP asset set uploaded by the user.
+- The previous SVG files remain historical placeholders only and are not the intended current display assets.
 
 ## Unconfirmed
-- GitHub Pages deployment has not been tested in the user's repository.
-- iPhone Safari visual confirmation has not been performed.
-- Final WebP assets have not yet been displayed from GitHub Pages.
+- Assistant has not independently opened the live GitHub Pages page after the user's upload.
+- Family playtest result has not yet been recorded.
 
 ## Follow-up
-- Add the generated WebP assets to `docs/episodes/ep01/assets/`.
-- Update `docs/episodes/ep01/episode.json` to reference WebP files.
-- Verify GitHub Pages display.
-- Verify iPhone Safari readability.
-- Add `ep02` by copying the ep01 structure.
+- Record family playtest results after running EP01.
+- Add `ep02` by copying the ep01 structure when ready.
